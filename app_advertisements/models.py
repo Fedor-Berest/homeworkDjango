@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib import admin
 from django.utils import timezone
+from django.utils.html import format_html
 # Create your models here.
 
 class Advertisement(models.Model):
@@ -18,7 +19,9 @@ class Advertisement(models.Model):
     def created_date(self):
         if self.created_at.date() == timezone.now().date():
             created_time = self.created_at.time().strftime("%H:%M:%S")
-            return f'Сегодня в {created_time}'
+            return format_html(
+                '<span style = "color: red">Сегодня в {}</span>', created_time
+            )
         else:
             return self.created_at.strftime("%d.%m.%Y в %H:%M:%S")
 
